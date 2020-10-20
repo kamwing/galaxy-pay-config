@@ -1,0 +1,86 @@
+{
+  "name": "galaxy-pay-config",
+  "version": "0.0.6",
+  "description": "galaxy-pay 项目支付插件",
+  "author": "Martin-Yin",
+  "main": "dist",
+  "private": false,
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "tsc --pretty && eslint . --ext ts --ext js",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "prettier": "prettier --write **/*.{js,ts}",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.@(ts)": "npm run lint"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "dependencies": {
+    "@nestjs/common": "^7.4.4",
+    "@nestjs/core": "^7.4.4",
+    "@nestjs/platform-express": "^7.4.4",
+    "chance": "^1.1.7",
+    "moment": "^2.29.1",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^6.5.4",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@nestjs/cli": "^7.5.1",
+    "@nestjs/schematics": "^7.1.2",
+    "@nestjs/testing": "^7.4.4",
+    "@types/express": "^4.17.3",
+    "@types/jest": "26.0.10",
+    "@types/node": "^13.9.1",
+    "@types/supertest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "4.4.1",
+    "eslint": "7.11.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "jest": "^25.1.0",
+    "prettier": "^2.1.2",
+    "supertest": "^5.0.0",
+    "ts-jest": "26.4.1",
+    "ts-loader": "^8.0.5",
+    "ts-node": "^9.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.0.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
