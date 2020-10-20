@@ -1,0 +1,1 @@
+### galaxy-pay-config
