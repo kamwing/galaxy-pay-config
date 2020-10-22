@@ -7,10 +7,14 @@ import { AlipayAppBizContent } from '../interfaces/app.interface';
 export class AliAppPayService extends AliPayBaseService {
   /**
    * 支付宝app 服务端支付
-   * @param param AlipayAppBizContent
+   * @param biz_content AlipayAppBizContent
    * @param alipay_config AlipayConfig
    */
-  async pay(param: AlipayAppBizContent, alipay_config: AlipayConfig): Promise<String> {
-    return this.processParams<AlipayAppBizContent>(param, 'alipay.trade.app.pay', alipay_config);
+  async pay(biz_content: AlipayAppBizContent, alipay_config: AlipayConfig): Promise<string> {
+    return this.processParams<AlipayAppBizContent>(
+      biz_content,
+      'alipay.trade.app.pay',
+      alipay_config,
+    );
   }
 }

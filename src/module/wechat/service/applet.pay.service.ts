@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { WeChatOtherPayOrderReqParam, WeChatOtherPayOrderRes } from '../interfaces/order.interface';
 import { WeChatPayBaseService } from './base.service';
 import { WechatConfig } from '../interfaces/base.interface';
@@ -14,15 +14,15 @@ export class WeChatAppletPayService extends WeChatPayBaseService {
    * @param wechatConfig
    * @param params 小程序支付接口请求参数
    */
-  async pay(wechatConfig: WechatConfig, params: WeChatOtherPayOrderReqParam): Promise<any> {
+  async pay(params: WeChatOtherPayOrderReqParam, wechat_config: WechatConfig): Promise<any> {
     params.trade_type = WeChatTradeType.JSAPI;
 
     const result = await this.requestUtil.post<WeChatOtherPayOrderRes>(
       this.unifiedOrderUrl,
-      this.processParams(params, wechatConfig),
+      this.processParams(params, wechat_config),
     );
     if (result.return_code !== 'SUCCESS') {
-      throw new HttpException(result.return_msg, HttpStatus.BAD_REQUEST);
+      throw new Error(result.return_msg);
     }
     // 请求微信服务器之后，返回的参数还需要再做一次加密
     const data = {
@@ -32,6 +32,6 @@ export class WeChatAppletPayService extends WeChatPayBaseService {
       package: 'prepay_id=' + result.prepay_id,
       signType: 'MD5',
     };
-    return { ...data, ...{ paySign: this.signUtil.sign(data, wechatConfig.mch_key) } };
+    return { ...data, ...{ paySign: this.signUtil.sign(data, wechat_config.mch_key) } };
   }
 }

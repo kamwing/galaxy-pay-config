@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { WeChatRequestUtil } from '../utils/request.util';
 import {
   WeChatBaseCloseOrderReqParam,
@@ -6,6 +6,8 @@ import {
   WeChatBaseQueryOrderReqParam,
   WeChatBaseQueryOrderRes,
 } from '../interfaces/order.interface';
+import * as fs from 'fs';
+import * as https from 'https';
 import {
   WeChatBaseQueryRefundRes,
   WeChatBaseQueryRefundReqParam,
@@ -33,6 +35,8 @@ export class WeChatPayBaseService {
   protected readonly downloadBillUrl = `${this.apiBase}/pay/downloadbill`;
   /** 下载资金账单接口地址 */
   protected readonly downloadFundFlowUrl = `${this.apiBase}/pay/downloadfundflow`;
+  /** 微信扫码付款接口地址 */
+  protected readonly micropayUrl = `${this.apiBase}/pay/micropay`;
 
   constructor(
     @Inject(WeChatRequestUtil) protected readonly requestUtil: WeChatRequestUtil,
@@ -49,12 +53,9 @@ export class WeChatPayBaseService {
     params: WeChatBaseQueryOrderReqParam,
     wechatConfig: WechatConfig,
   ): Promise<WeChatBaseQueryOrderRes> {
-    if (!params.out_trade_no && !params.transaction_id)
-      throw new HttpException(
-        '参数有误，out_trade_no 和 transaction_id 二选一',
-        HttpStatus.BAD_REQUEST,
-      );
-
+    if (!params.out_trade_no && !params.transaction_id) {
+      throw new Error('参数有误，out_trade_no 和 transaction_id 二选一');
+    }
     return await this.requestUtil.post<WeChatBaseQueryOrderRes>(
       this.queryOrderUrl,
       this.processParams(params, wechatConfig),
@@ -83,15 +84,14 @@ export class WeChatPayBaseService {
    */
   public async refund(
     params: WeChatBaseRefundReqParam,
-    wechatconfig: WechatConfig,
-    httpConfig,
+    wechat_config: WechatConfig,
   ): Promise<WeChatBaseRefundRes> {
     if (!params.out_trade_no && !params.transaction_id)
       throw new Error('参数有误，out_trade_no 和 transaction_id 二选一');
     return await this.requestUtil.post<WeChatBaseRefundRes>(
       this.refundUrl,
-      this.processParams(params, wechatconfig),
-      { httpsAgent: httpConfig },
+      this.processParams(params, wechat_config),
+      { httpsAgent: this.getCertHttpAgent('', wechat_config.mch_id) },
     );
   }
 
@@ -102,7 +102,7 @@ export class WeChatPayBaseService {
    */
   public async queryRefund(
     params: WeChatBaseQueryRefundReqParam,
-    wechatConfig: WechatConfig,
+    wechat_config: WechatConfig,
   ): Promise<WeChatBaseQueryRefundRes> {
     if (
       !params.out_trade_no &&
@@ -110,14 +110,11 @@ export class WeChatPayBaseService {
       !params.out_refund_no &&
       !params.refund_id
     ) {
-      throw new HttpException(
-        '参数有误，out_trade_no、transaction_id、out_refund_no 和 refund_id 四选一',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new Error('参数有误，out_trade_no、transaction_id、out_refund_no 和 refund_id 四选一');
     }
     return await this.requestUtil.post<WeChatBaseQueryRefundRes>(
       this.refundQueryUrl,
-      this.processParams(params, wechatConfig),
+      this.processParams(params, wechat_config),
     );
   }
 
@@ -126,7 +123,7 @@ export class WeChatPayBaseService {
    * @param params 微信支付参数
    * @param config 微信支付配置
    */
-  processParams(params, config: WechatConfig) {
+  processParams(params: { [k: string]: string | number | any }, config: WechatConfig) {
     params.notify_url = config.notify_url;
     params.appid = config.appid;
     params.mch_id = config.mch_id;
@@ -134,5 +131,20 @@ export class WeChatPayBaseService {
     params.sign_type = 'MD5';
     params.sign = this.signUtil.sign(params, config.mch_key, 'MD5');
     return params;
+  }
+
+  /**
+   * 获取微信证书
+   * @param apiclient_cert string
+   * @param mch_id string
+   */
+  getCertHttpAgent(apiclient_cert: string | Buffer, mch_id: string): https.Agent {
+    if (!apiclient_cert) {
+      throw new Error('参数有误，微信退款接口证书未传递！');
+    }
+    return new https.Agent({
+      pfx: Buffer.isBuffer(apiclient_cert) ? apiclient_cert : fs.readFileSync(apiclient_cert),
+      passphrase: mch_id,
+    });
   }
 }

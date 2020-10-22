@@ -30,13 +30,8 @@ export interface WechatConfig {
   mch_id: string;
   mch_key: string;
   app_secret: string;
-  apiclient_cert: string;
+  /** 微信证书*/
+  apiclient_cert: string | Buffer;
   notify_url: string;
   return_url: string;
-  callback_url: string;
-  refund_notify_url: string;
-}
-
-export interface Param {
-  appid: string;
 }

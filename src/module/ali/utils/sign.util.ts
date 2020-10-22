@@ -11,7 +11,7 @@ export class AliSignUtil {
    * 潜拷贝
    * @param obj
    */
-  copy(obj) {
+  copy(obj: { [k: string]: string | number | any }) {
     const ret = {};
     for (const k in obj) {
       ret[k] = obj[k];
@@ -19,6 +19,10 @@ export class AliSignUtil {
     return ret;
   }
 
+  /**
+   * 支付宝请求参数编码
+   * @param params
+   */
   encodeParams(
     params: AlipayRequestParam,
   ): {
@@ -59,7 +63,12 @@ export class AliSignUtil {
     return result;
   }
 
-  responSignVerify(response, public_key: string): boolean {
+  /**
+   * 支付宝请求同步回调价签验证
+   * @param response
+   * @param public_key
+   */
+  responSignVerify(response: { [k: string]: string | number | any }, public_key: string): boolean {
     const ret: any = this.copy(response);
     const sign = ret['sign'];
     delete ret.sign;
@@ -83,11 +92,8 @@ export class AliSignUtil {
     }, null);
 
     if (res) {
-      // 如果字符串中包含“http://”的正斜杠， 需要进行转义
+      // 如果字符串中包含“http://”的正斜杠， 需要进行转义 有坑，须注意。
       // 譬如https://qr.alipay.com/bax01627rhk9yrptdnqc000a  需要转义成 "https:\\/\\/qr.alipay.com\\/bax01627rhk9yrptdnqc000a"
-
-      // 你以为转成这样就好了？？？天真
-      // 实际上是 https:\/\/qr.alipay.com\/bax05478ub8dckcl8ddq00cf 这样的..妈蛋~
       return this.signVerify(JSON.stringify(res).replace(/\//g, '\\/'), sign, public_key);
     } else {
       const tmp = this.encodeParams(ret);

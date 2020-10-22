@@ -171,14 +171,14 @@ export interface AlipayTradeCloseResponseData {
 /**
  * 支付宝扫码支付订单创建
  */
-export interface AlipayPrecreateResponse extends AlipayTradeBase {
+export interface AlipayPrecreateRes extends AlipayTradeBase {
   qr_code: string;
 }
 
 /**
  * 支付宝订单创建返回得接口
  */
-export interface AlipayPrecreateResponseData {
+export interface AlipayPrecreateResData {
   sign: string;
-  alipay_trade_precreate_response: AlipayPrecreateResponse;
+  alipay_trade_precreate_response: AlipayPrecreateRes;
 }

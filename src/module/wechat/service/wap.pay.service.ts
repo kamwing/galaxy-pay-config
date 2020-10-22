@@ -13,14 +13,15 @@ export class WeChatWapPayService extends WeChatPayBaseService {
    * H5支付
    *
    * @param params H5支付接口请求参数
+   * @param wechat_config 微信支付配置
    */
   async pay(
-    wechatConfig: WechatConfig,
     params: WeChatOtherPayOrderReqParam,
+    wechat_config: WechatConfig,
   ): Promise<WeChatOtherPayOrderRes> {
     return await this.requestUtil.post<WeChatOtherPayOrderRes>(
       this.unifiedOrderUrl,
-      this.processParams(params, wechatConfig),
+      this.processParams(params, wechat_config),
     );
   }
 }

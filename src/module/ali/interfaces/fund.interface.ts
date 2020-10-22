@@ -17,7 +17,7 @@ export interface AlipayTransferBizContent {
   business_params: string;
 }
 
-export interface AlipayFundTransUniTransferResponse {
+export interface AlipayFundTransUniTransferRes {
   code: string;
   msg: string;
   out_biz_no: string;
@@ -27,7 +27,7 @@ export interface AlipayFundTransUniTransferResponse {
   trans_date: string;
 }
 
-export interface AlipayFundTransUniTransferResponseData {
+export interface AlipayFundTransUniTransferResData {
   sign: string;
-  alipay_fund_trans_uni_transfer_response: AlipayFundTransUniTransferResponse;
+  alipay_fund_trans_uni_transfer_response: AlipayFundTransUniTransferRes;
 }

@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { AliRequestUtil } from '../utils/request.util';
 import { AliParamsUtil } from '../utils/params.util';
 import { AliSignUtil } from '../utils/sign.util';
@@ -22,7 +22,7 @@ export class AliPayBaseService {
    * @param alipay_config 支付宝配置
    * @returns {String}
    */
-  processParams<T>(biz_content: T, method: string, alipay_config: AlipayConfig): any {
+  processParams<T>(biz_content: T, method: string, alipay_config: AlipayConfig): string {
     const request_param = {
       app_id: alipay_config.appid,
       format: 'JSON',
@@ -46,7 +46,7 @@ export class AliPayBaseService {
         return `${this.alipay_gate_way}${encode}&sign=` + encodeURIComponent(sign);
       }
     } catch (e) {
-      throw new HttpException(e.toString(), 400);
+      throw new Error(e.toString());
     }
   }
 }

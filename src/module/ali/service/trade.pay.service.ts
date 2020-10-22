@@ -1,14 +1,14 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AliPayBaseService } from './base.service';
 import { AlipayConfig } from '../interfaces/base.interface';
 import {
   AlipayTradeRefundResponseData,
-  AlipayPrecreateResponse,
   AlipayTradeCreateResponse,
   AlipayTradeCreateResponseData,
-  AlipayPrecreateResponseData,
   AlipayCreateBizContent,
   AlipayPrecreateBizContent,
+  AlipayPrecreateRes,
+  AlipayPrecreateResData,
 } from '../interfaces/trade.interface';
 import { AlipayRefundBizContent } from '../interfaces/refund.interface';
 
@@ -18,31 +18,14 @@ export class AliTradePayService extends AliPayBaseService {
    * 支付宝查询接口
    * @param config AlipayConfig
    * @param body
-   *
-   *
    */
-  // async query(body, config: AlipayConfig): Promise<AlipayTradeQueryResponse> {
-  //     const data = {
-  //         app_id: config.appid,
-  //         method: "alipay.trade.query",
-  //         notify_url: config.notify_url,
-  //         biz_content: JSON.stringify({
-  //             ...body
-  //         }),
-  //     }
-  //     this.param = {...this.param, ...data};
-  //     try {
-  //         const { alipay_trade_query_response } = await this.requestUtil.post<AlipayTradeQueryResponseData>(this.processParams(this.param, config.private_key), config.public_key);
-  //         return alipay_trade_query_response;
-  //     } catch (e) {
-  //         throw new HttpException(e.toString(), HttpStatus.BAD_REQUEST);
-  //     }
+  // async query(biz_content, alipay_config: AlipayConfig): Promise<AlipayTradeQueryResponse> {
   // }
 
   /**
    * 支付宝退款接口
-   * @param config AlipayConfig
-   * @param body AlipayRefundBizContent
+   * @param biz_content AlipayRefundBizContent
+   * @param alipay_config AlipayConfig
    */
   async refund(biz_content: AlipayRefundBizContent, alipay_config: AlipayConfig): Promise<any> {
     try {
@@ -52,13 +35,13 @@ export class AliTradePayService extends AliPayBaseService {
       >(url, alipay_config.public_key);
       return alipay_trade_refund_response;
     } catch (e) {
-      throw new HttpException(e.toString(), HttpStatus.BAD_REQUEST);
+      throw new Error(e.toString());
     }
   }
 
   /**
    * 支付宝订单创建
-   * @param param AlipayRequestParam
+   * @param biz_content AlipayRequestParam
    * @param private_key string
    * @param public_key string
    */
@@ -73,50 +56,35 @@ export class AliTradePayService extends AliPayBaseService {
       >(url, alipay_config.public_key);
       return alipay_trade_create_response;
     } catch (e) {
-      throw new HttpException(e.toString(), HttpStatus.BAD_REQUEST);
+      throw new Error(e.toString());
     }
   }
 
   /**
    * 支付宝关闭订单接口
-   * @param config AlipayConfig
-   * @param body
+   * @param biz_content
+   * @param alipay_config AlipayConfig
    */
-  // async close(body, config: AlipayConfig): Promise<AlipayTradeCloseResponse> {
-  //     const param = {
-  //         app_id: config.appid,
-  //         method: "alipay.trade.create",
-  //         notify_url: config.notify_url,
-  //         biz_content: JSON.stringify({
-  //             ...body,
-  //         }),
-  //     }
-  //     this.param = {...this.param, ...param}
-  //     try {
-  //         const { alipay_trade_close_response } = await this.requestUtil.post<AlipayTradeCloseResponseData>(this.processParams(this.param, config.private_key), config.public_key);
-  //         return alipay_trade_close_response;
-  //     } catch (e) {
-  //         throw new HttpException(e.toString(), HttpStatus.BAD_REQUEST);
-  //     }
+  // async close(biz_content, alipay_config: AlipayConfig): Promise<any> {
   // }
 
   /**
    * 支付宝扫码接口
-   * @param config AlipayConfig
-   * @param body AlipayPageBizContent
+   * @param biz_content AlipayPrecreateBizContent
+   * @param alipay_config AlipayConfig
    */
   async precreate(
     biz_content: AlipayPrecreateBizContent,
     alipay_config: AlipayConfig,
-  ): Promise<AlipayPrecreateResponse> {
+  ): Promise<AlipayPrecreateRes> {
     try {
       const url = this.processParams(biz_content, 'alipay.trade.precreate', alipay_config);
       const { alipay_trade_precreate_response } = await this.requestUtil.post<
-        AlipayPrecreateResponseData
+        AlipayPrecreateResData
       >(url, alipay_config.public_key);
       return alipay_trade_precreate_response;
     } catch (e) {
-      throw new HttpException(e.toString(), HttpStatus.BAD_REQUEST);
+      throw new Error(e.toString());
     }
   }
 }

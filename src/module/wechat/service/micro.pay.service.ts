@@ -11,14 +11,13 @@ import { WechatConfig } from '../interfaces/base.interface';
 export class WeChatMicroPayService extends WeChatPayBaseService {
   /**
    * 付款码支付
-   * @param wechatConfig
    * @param params
+   * @param wechat_config
    */
-  async pay(wechatConfig: WechatConfig, params: WeChatMicroPayOrderReqParam) {
-    const url = `${this.apiBase}/pay/micropay`;
+  async pay(params: WeChatMicroPayOrderReqParam, wechat_config: WechatConfig) {
     return await this.requestUtil.post<WeChatMicroPayOrderRes>(
-      url,
-      this.processParams(params, wechatConfig),
+      this.micropayUrl,
+      this.processParams(params, wechat_config),
     );
   }
 

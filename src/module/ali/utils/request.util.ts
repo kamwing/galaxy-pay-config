@@ -1,4 +1,4 @@
-import { Injectable, HttpService, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpService, Inject } from '@nestjs/common';
 import * as axios from 'axios';
 import { AliSignUtil } from './sign.util';
 import { AliParamsUtil } from './params.util';
@@ -24,19 +24,16 @@ export class AliRequestUtil {
   async post<T>(
     url: string,
     public_key: string,
-    axiosConfig?: axios.AxiosRequestConfig,
+    axios_config?: axios.AxiosRequestConfig,
   ): Promise<T> {
     try {
-      const { data } = await this.httpService.post<T>(`${url}`, axiosConfig).toPromise();
+      const { data } = await this.httpService.post<T>(`${url}`, axios_config).toPromise();
       if (!this.singinUtil.responSignVerify(data, public_key)) {
-        throw new HttpException('支付宝支付接口返回签名有误', HttpStatus.BAD_REQUEST);
+        throw new Error('支付宝支付接口返回签名有误');
       }
       return data;
     } catch (error) {
-      throw new HttpException(
-        '支付包请求接口时出现网络异常：' + error.toString(),
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new Error('支付包请求接口时出现网络异常：' + error.toString());
     }
   }
 }

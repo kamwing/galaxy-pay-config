@@ -1,7 +1,11 @@
 {
   "name": "galaxy-pay-config",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "galaxy-pay 项目支付插件",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/martin-yin/galaxy-pay-config"
+  },
   "author": "Martin-Yin",
   "main": "dist",
   "private": false,

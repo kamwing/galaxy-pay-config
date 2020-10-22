@@ -1,4 +1,4 @@
-import { HttpService, Inject, Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { HttpService, Inject, Injectable } from '@nestjs/common';
 import * as axios from 'axios';
 import { XmlUtil } from './xml.util';
 
@@ -19,21 +19,18 @@ export class WeChatRequestUtil {
    * @param params 请求参数
    * @param config 支付参数
    */
-  async post<T>(url: string, params, config?: axios.AxiosRequestConfig): Promise<T> {
+  async post<T>(url: string, params: any, config?: axios.AxiosRequestConfig): Promise<T> {
     try {
       const { data } = await this.httpService
         .post<T>(url, this.xmlUtil.convertObjToXml(params), config)
         .toPromise();
       if ((data as any).return_code === 'SUCCESS') {
         if (params.sign && params.sign !== (data as any).sign)
-          throw new HttpException('微信支付接口返回签名有误', HttpStatus.BAD_REQUEST);
+          throw new Error('微信支付接口返回签名有误');
       }
       return this.xmlUtil.parseObjFromXml<T>(data);
     } catch (error) {
-      throw new HttpException(
-        '微信支付请求接口时出现网络异常：' + error.toString(),
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new Error('微信支付请求接口时出现网络异常：' + error.toString());
     }
   }
 
@@ -78,26 +75,20 @@ export class WeChatRequestUtil {
     regexpType: 'normal' | 'special',
   ) {
     if (params[propertyName].length > maxLength) {
-      throw new HttpException(
-        `参数 ${propertyName} 长度不能大于 ${maxLength} 个字符`,
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new Error(`参数 ${propertyName} 长度不能大于 ${maxLength} 个字符`);
     }
 
     const normalRegexp = new RegExp(/^[A-Za-z0-9]+$/, 'g');
     const specialRegexp = new RegExp(/^[A-Za-z0-9_\-|\*@]+$/, 'g');
     if (regexpType === 'normal') {
       if (!normalRegexp.test(params[propertyName])) {
-        throw new HttpException(`参数 ${propertyName} 只能是字母或者数字`, HttpStatus.BAD_REQUEST);
+        throw new Error(`参数 ${propertyName} 只能是字母或者数字`);
       }
     }
 
     if (regexpType === 'special') {
       if (!specialRegexp.test(params[propertyName])) {
-        throw new HttpException(
-          `参数 ${propertyName} 只能是数字、大小写字母或_-|*@`,
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new Error(`参数 ${propertyName} 只能是数字、大小写字母或_-|*@`);
       }
     }
   }

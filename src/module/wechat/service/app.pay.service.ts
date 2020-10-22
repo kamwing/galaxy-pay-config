@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import {
   WeChatAppPayOrderReqParam,
@@ -25,13 +25,13 @@ export class WeChatAppPayService extends WeChatPayBaseService {
    *
    * @param params APP支付请求参数
    */
-  async pay(wechatConfig: WechatConfig, params: WeChatAppPayOrderReqParam): Promise<any> {
+  async pay(params: WeChatAppPayOrderReqParam, wechat_config: WechatConfig): Promise<any> {
     const result = await this.requestUtil.post<WeChatAppPayOrderRes>(
       this.unifiedOrderUrl,
-      this.processParams(params, wechatConfig),
+      this.processParams(params, wechat_config),
     );
     if (result.return_code !== 'SUCCESS') {
-      throw new HttpException(result.return_msg, HttpStatus.BAD_REQUEST);
+      throw new Error(result.return_msg);
     }
     // 请求微信服务器之后，返回的参数还需要再做一次加密
     const data = {
@@ -42,7 +42,7 @@ export class WeChatAppPayService extends WeChatPayBaseService {
       noncestr: result.nonce_str,
       timestamp: Date.parse(new Date().toString()) / 1000,
     };
-    return { ...data, ...{ sign: this.signUtil.sign(data, wechatConfig.mch_key) } };
+    return { ...data, ...{ sign: this.signUtil.sign(data, wechat_config.mch_key) } };
   }
 
   /**
@@ -52,10 +52,10 @@ export class WeChatAppPayService extends WeChatPayBaseService {
    */
   async queryOrder(
     params: WeChatBaseQueryOrderReqParam,
-    wechatConfig: WechatConfig,
+    wechat_config: WechatConfig,
   ): Promise<WeChatBaseQueryOrderRes> {
     (params as any).sign_type = 'no_sign_type';
-    return await super.queryOrder(params, wechatConfig);
+    return await super.queryOrder(params, wechat_config);
   }
 
   /**
@@ -65,10 +65,10 @@ export class WeChatAppPayService extends WeChatPayBaseService {
    */
   async closeOrder(
     params: WeChatBaseCloseOrderReqParam,
-    wechatConfig: WechatConfig,
+    wechat_config: WechatConfig,
   ): Promise<WeChatBaseCloseOrderRes> {
     (params as any).sign_type = 'no_sign_type';
-    return await super.closeOrder(params, wechatConfig);
+    return await super.closeOrder(params, wechat_config);
   }
 
   /**
@@ -78,9 +78,9 @@ export class WeChatAppPayService extends WeChatPayBaseService {
    */
   async queryRefund(
     params: WeChatBaseQueryRefundReqParam,
-    wechatConfig: WechatConfig,
+    wechat_config: WechatConfig,
   ): Promise<WeChatBaseQueryRefundRes> {
     (params as any).sign_type = 'no_sign_type';
-    return await super.queryRefund(params, wechatConfig);
+    return await super.queryRefund(params, wechat_config);
   }
 }
