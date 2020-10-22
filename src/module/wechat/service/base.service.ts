@@ -91,7 +91,7 @@ export class WeChatPayBaseService {
     return await this.requestUtil.post<WeChatBaseRefundRes>(
       this.refundUrl,
       this.processParams(params, wechat_config),
-      { httpsAgent: this.getCertHttpAgent('', wechat_config.mch_id) },
+      { httpsAgent: this.getCertHttpAgent(wechat_config.apiclient_cert, wechat_config.mch_id) },
     );
   }
 
