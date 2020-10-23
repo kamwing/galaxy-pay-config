@@ -13,7 +13,7 @@ npm i galaxy-pay-config
 
 ```
 
-## User
+## Use
 
 ```
     ...
