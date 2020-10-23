@@ -3,6 +3,7 @@ export * from './service/wap.pay.service';
 export * from './utils/params.util';
 export * from './utils/request.util';
 export * from './utils/sign.util';
+export * from './utils/cert.util';
 export * from './service/app.pay.service';
 export * from './service/page.pay.service';
 export * from './service/trade.pay.service';

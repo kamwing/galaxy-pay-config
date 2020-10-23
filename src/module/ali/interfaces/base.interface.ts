@@ -3,8 +3,9 @@ export interface AlipayConfig {
   private_key: string;
   public_key: string;
   return_url: string;
-  callback_url: string;
   notify_url: string;
+  app_cert_sn: string;
+  alipay_root_cert_sn: string;
 }
 
 /**
@@ -12,6 +13,8 @@ export interface AlipayConfig {
  *  https://opendocs.alipay.com/apis/api_1 （支付宝alipay.treade.pay 统一收单交易支付接口）
  */
 export interface AlipayRequestParam {
+  app_cert_sn?: string;
+  alipay_root_cert_sn?: string;
   app_id: string;
   method: string;
   format?: string;

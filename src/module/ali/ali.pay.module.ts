@@ -6,6 +6,7 @@ import { AliSignUtil } from './utils/sign.util';
 import { AliAppPayService } from './service/app.pay.service';
 import { AliPagePayService } from './service/page.pay.service';
 import { AliTradePayService } from './service/trade.pay.service';
+import { AliCertUtil } from './utils/cert.util';
 
 @Module({
   imports: [HttpModule],
@@ -16,6 +17,7 @@ import { AliTradePayService } from './service/trade.pay.service';
     AliParamsUtil,
     AliRequestUtil,
     AliSignUtil,
+    AliCertUtil,
     AliWapPayService,
     AliTradePayService,
   ],

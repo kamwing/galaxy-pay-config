@@ -37,9 +37,11 @@
     ]
   },
   "dependencies": {
+    "@fidm/x509": "^1.2.1",
     "@nestjs/common": "^7.4.4",
     "@nestjs/core": "^7.4.4",
     "@nestjs/platform-express": "^7.4.4",
+    "bignumber.js": "^9.0.1",
     "chance": "^1.1.7",
     "moment": "^2.29.1",
     "reflect-metadata": "^0.1.13",
