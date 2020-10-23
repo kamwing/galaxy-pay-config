@@ -1,6 +1,6 @@
 {
   "name": "galaxy-pay-config",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "galaxy-pay 项目支付插件",
   "repository": {
     "type": "git",

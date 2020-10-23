@@ -31,7 +31,7 @@ export interface WechatConfig {
   mch_key: string;
   app_secret: string;
   /** 微信证书*/
-  apiclient_cert: string | Buffer;
+  apiclient_cert?: string | Buffer;
   notify_url: string;
   return_url: string;
 }
