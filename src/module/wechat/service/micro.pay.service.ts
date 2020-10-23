@@ -18,6 +18,7 @@ export class WeChatMicroPayService extends WeChatPayBaseService {
     return await this.requestUtil.post<WeChatMicroPayOrderRes>(
       this.micropayUrl,
       this.processParams(params, wechat_config),
+      wechat_config.mch_key,
     );
   }
 

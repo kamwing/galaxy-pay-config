@@ -51,14 +51,15 @@ export class WeChatPayBaseService {
    */
   public async queryOrder(
     params: WeChatBaseQueryOrderReqParam,
-    wechatConfig: WechatConfig,
+    wechat_config: WechatConfig,
   ): Promise<WeChatBaseQueryOrderRes> {
     if (!params.out_trade_no && !params.transaction_id) {
       throw new Error('参数有误，out_trade_no 和 transaction_id 二选一');
     }
     return await this.requestUtil.post<WeChatBaseQueryOrderRes>(
       this.queryOrderUrl,
-      this.processParams(params, wechatConfig),
+      this.processParams(params, wechat_config),
+      wechat_config.mch_key,
     );
   }
 
@@ -69,11 +70,12 @@ export class WeChatPayBaseService {
    */
   public async closeOrder(
     params: WeChatBaseCloseOrderReqParam,
-    wechatConfig: WechatConfig,
+    wechat_config: WechatConfig,
   ): Promise<WeChatBaseCloseOrderRes> {
     return await this.requestUtil.post<WeChatBaseCloseOrderRes>(
       this.closeOrderUrl,
-      this.processParams(params, wechatConfig),
+      this.processParams(params, wechat_config),
+      wechat_config.mch_key,
     );
   }
 
@@ -91,6 +93,7 @@ export class WeChatPayBaseService {
     return await this.requestUtil.post<WeChatBaseRefundRes>(
       this.refundUrl,
       this.processParams(params, wechat_config),
+      wechat_config.mch_key,
       { httpsAgent: this.getCertHttpAgent(wechat_config.apiclient_cert, wechat_config.mch_id) },
     );
   }
@@ -115,6 +118,7 @@ export class WeChatPayBaseService {
     return await this.requestUtil.post<WeChatBaseQueryRefundRes>(
       this.refundQueryUrl,
       this.processParams(params, wechat_config),
+      wechat_config.mch_key,
     );
   }
 

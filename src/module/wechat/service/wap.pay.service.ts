@@ -22,6 +22,7 @@ export class WeChatWapPayService extends WeChatPayBaseService {
     return await this.requestUtil.post<WeChatOtherPayOrderRes>(
       this.unifiedOrderUrl,
       this.processParams(params, wechat_config),
+      wechat_config.mch_key,
     );
   }
 }

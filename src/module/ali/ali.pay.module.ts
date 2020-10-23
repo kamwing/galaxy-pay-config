@@ -27,6 +27,7 @@ import { AliCertUtil } from './utils/cert.util';
     AliParamsUtil,
     AliRequestUtil,
     AliSignUtil,
+    AliCertUtil,
     AliTradePayService,
     AliWapPayService,
   ],

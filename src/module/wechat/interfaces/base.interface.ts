@@ -34,4 +34,5 @@ export interface WechatConfig {
   apiclient_cert?: string | Buffer;
   notify_url: string;
   return_url: string;
+  [key: string]: any;
 }

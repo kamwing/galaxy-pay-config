@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-
 import {
   WeChatAppPayOrderReqParam,
   WeChatAppPayOrderRes,
@@ -29,6 +28,7 @@ export class WeChatAppPayService extends WeChatPayBaseService {
     const result = await this.requestUtil.post<WeChatAppPayOrderRes>(
       this.unifiedOrderUrl,
       this.processParams(params, wechat_config),
+      wechat_config.mch_key,
     );
     if (result.return_code !== 'SUCCESS') {
       throw new Error(result.return_msg);

@@ -6,6 +6,7 @@ export interface AlipayConfig {
   notify_url: string;
   app_cert_sn: string;
   alipay_root_cert_sn: string;
+  [key: string]: any;
 }
 
 /**

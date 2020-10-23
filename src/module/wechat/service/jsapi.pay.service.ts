@@ -10,16 +10,17 @@ import { WechatConfig } from '../interfaces/base.interface';
 export class WeChatJSAPIPayService extends WeChatPayBaseService {
   /**
    * JSAPI支付
-   * @param wechatConfig 微信配置
+   * @param wechat_config 微信配置
    * @param params JSAPI支付接口请求参数
    */
   async pay(
-    wechatConfig: WechatConfig,
     params: WeChatOtherPayOrderReqParam,
+    wechat_config: WechatConfig,
   ): Promise<WeChatOtherPayOrderRes> {
     return await this.requestUtil.post<WeChatOtherPayOrderRes>(
       this.unifiedOrderUrl,
-      this.processParams(params, wechatConfig),
+      this.processParams(params, wechat_config),
+      wechat_config.mch_key,
     );
   }
 }
