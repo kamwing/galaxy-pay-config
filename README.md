@@ -118,7 +118,12 @@ npm i galaxy-pay-config
 * **APP支付接口**
 	
 	alipay.trade.app.pay **AliAppPayService.pay**
+
 	
+* **查询对账单下载地址**
+
+	alipay.data.dataservice.bill.downloadurl.query  **AliDataPayService.dataserviceBillDownloadurlQuery**
+
 * **单笔转账接口**
 
 	alipay.fund.trans.uni.transfer  **AliFundPayService.transUniTransfer**
