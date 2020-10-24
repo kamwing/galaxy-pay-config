@@ -3,14 +3,16 @@ import { AlipayBaseBizContent, ExtUserInfo } from './base.interface';
 /**
  * Wap 请求biz_content
  */
-export interface AlipayWapBizContent extends AlipayBaseBizContent {
+export interface AlipayTradeWapBizContent extends AlipayBaseBizContent {
   timeout_express?: string;
   time_expire?: string;
   auth_token?: string;
   goods_type?: string;
   quit_url?: string;
   passback_params?: string;
-  promo_params?: string;
+  promo_params?: {
+    actual_order_time: string;
+  };
   extend_params?: {
     sys_service_provider_id?: string;
     hb_fq_num?: string;

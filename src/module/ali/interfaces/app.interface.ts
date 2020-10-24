@@ -3,11 +3,13 @@ import { AlipayBaseBizContent, ExtUserInfo, AgreementSignParams } from './base.i
 /**
  * App 请求biz_content
  */
-export interface AlipayAppBizContent extends AlipayBaseBizContent {
+export interface AlipayTradeAppBizContent extends AlipayBaseBizContent {
   timeout_express?: string;
   time_expire?: string;
   goods_type?: string;
-  promo_params?: string;
+  promo_params?: {
+    actual_order_time: string;
+  };
   passback_params?: string;
   extend_params?: {
     sys_service_provider_id?: string;

@@ -48,7 +48,7 @@ export class WeChatRequestUtil {
    *
    * @param params 请求参数
    */
-  checkParamNo(params: any) {
+  checkParamNo(params: { [k: string]: any }) {
     for (const no of ['out_trade_no', 'out_refund_no', 'mch_billno', 'partner_trade_no']) {
       if (Object.keys(params).includes(no)) {
         switch (no) {

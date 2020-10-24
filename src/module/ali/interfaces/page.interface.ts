@@ -3,7 +3,7 @@ import { ExtUserInfo, AlipayBaseBizContent } from './base.interface';
 /**
  * page 请求biz_content
  */
-export interface AlipayPageBizContent extends AlipayBaseBizContent {
+export interface AlipayTradePageBizContent extends AlipayBaseBizContent {
   time_expire?: string;
   passback_params?: string;
   extend_params?: {
@@ -15,7 +15,9 @@ export interface AlipayPageBizContent extends AlipayBaseBizContent {
   };
   goods_type?: string;
   timeout_express?: string;
-  promo_params?: string;
+  promo_params?: {
+    actual_order_time: string;
+  };
   royalty_info?: {
     royalty_type?: string;
     royalty_detail_infos: Array<{ serial_no?: number }>;
@@ -66,7 +68,9 @@ export interface AlipayPageBizContent extends AlipayBaseBizContent {
     third_party_type?: string;
     buckle_app_id?: string;
     buckle_merchant_id?: string;
-    promo_params?: string;
+    promo_params?: {
+      actual_order_time: string;
+    };
   };
   integration_type?: string;
   request_from_url?: string;

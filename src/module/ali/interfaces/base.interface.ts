@@ -65,8 +65,8 @@ export interface AlipayTradeBase {
   msg: string;
   trade_no: string;
   out_trade_no: string;
-  sub_code: string;
-  sub_msg: string;
+  sub_code?: string;
+  sub_msg?: string;
 }
 
 export interface ExtUserInfo {

@@ -12,7 +12,7 @@ export class WeChatSignUtil {
    * @param params 参数
    * @param signType 签名方式(选填)，默认MD5
    */
-  sign(params: {}, secretKey: string, signType?: 'MD5' | 'HMAC-SHA256'): string {
+  sign(params: { [k: string]: any }, secretkey: string, signType?: 'MD5' | 'HMAC-SHA256'): string {
     const paramArr: string[] = [];
     const sortedKeys = Object.keys(params).sort();
     for (const key of sortedKeys) {
@@ -21,10 +21,10 @@ export class WeChatSignUtil {
     }
     let signStr = paramArr.join('&');
     if (signType && signType === 'HMAC-SHA256') {
-      return createHmac('sha256', secretKey).update(signStr).digest('hex').toUpperCase();
+      return createHmac('sha256', secretkey).update(signStr).digest('hex').toUpperCase();
     }
     return createHash('md5')
-      .update((signStr += `&key=${secretKey}`))
+      .update((signStr += `&key=${secretkey}`))
       .digest('hex')
       .toUpperCase();
   }
