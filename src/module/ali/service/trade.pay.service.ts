@@ -123,7 +123,7 @@ export class AliTradePayService extends AliPayBaseService {
    * @param biz_content AlipayTradeRefundQueryBizContent
    * @param alipay_config AlipayConfig
    */
-  async refundQuery(
+  async fastpayRefundQuery(
     biz_content: AlipayTradeRefundQueryBizContent,
     alipay_config: AlipayConfig,
   ): Promise<AlipayTradeQueryRefundRes> {
