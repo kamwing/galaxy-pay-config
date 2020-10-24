@@ -60,7 +60,7 @@ export interface AlipayBaseGoodsDetail {
 /**
  * 支付宝公共响应接口
  */
-export interface AlipayTradeBase {
+export interface AlipayBaseRes {
   code: string;
   msg: string;
   trade_no: string;

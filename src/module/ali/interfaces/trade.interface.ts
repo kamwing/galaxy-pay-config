@@ -1,4 +1,4 @@
-import { AlipayBaseBizContent, AlipayTradeBase } from './base.interface';
+import { AlipayBaseBizContent, AlipayBaseRes } from './base.interface';
 
 /**
  * 支付宝 统一收单交易支付接口
@@ -29,7 +29,7 @@ export interface AlipayTradePayBizContent extends AlipayBaseBizContent {
   is_async_pay?: string;
 }
 
-export interface AlipayTradePayRes extends AlipayTradeBase {
+export interface AlipayTradePayRes extends AlipayBaseRes {
   buyer_logon_id: string;
   settle_amount: string;
   pay_currency: string;
@@ -117,7 +117,7 @@ export interface AlipayTradePrecreateBizContent extends AlipayBaseBizContent {
   qr_code_timeout_express?: string;
 }
 
-export interface AlipayTradePrecreateRes extends AlipayTradeBase {
+export interface AlipayTradePrecreateRes extends AlipayBaseRes {
   qr_code: string;
 }
 
@@ -142,7 +142,7 @@ export interface AlipayTradeQueryRefundResData {
   alipay_trade_fastpay_refund_query_response: AlipayTradeQueryRefundRes;
 }
 
-export interface AlipayTradeQueryRefundRes extends AlipayTradeBase {
+export interface AlipayTradeQueryRefundRes extends AlipayBaseRes {
   refund_reason: string;
   total_amount: number;
   refund_amount: number;
@@ -221,7 +221,7 @@ export interface AlipayTradeCreateBizContent extends AlipayBaseBizContent {
   };
 }
 
-export type AlipayTradeCreateRes = AlipayTradeBase;
+export type AlipayTradeCreateRes = AlipayBaseRes;
 
 export interface AlipayTradeCreateResData {
   sign: string;
@@ -244,7 +244,7 @@ export interface AlipayTradeQueryResData {
   alipay_trade_query_response: AlipayTradeQueryRes;
 }
 
-export interface AlipayTradeQueryRes extends AlipayTradeBase {
+export interface AlipayTradeQueryRes extends AlipayBaseRes {
   buyer_logon_id: string;
   trade_status: string;
   total_amount: number;
@@ -309,7 +309,7 @@ export interface AlipayTradeCloseResData {
   alipay_trade_close_response: AlipayTradeQueryRes;
 }
 
-export type AlipayTradeCloseRes = AlipayTradeBase;
+export type AlipayTradeCloseRes = AlipayBaseRes;
 
 /**
  * 支付宝交易退款
@@ -332,7 +332,7 @@ export interface AlipayTradeRefundResData {
   alipay_trade_refund_response: AlipayTradeRefundRes;
 }
 
-export interface AlipayTradeRefundRes extends AlipayTradeBase {
+export interface AlipayTradeRefundRes extends AlipayBaseRes {
   buyer_logon_id: string;
   fund_change: string;
   refund_fee: number;
@@ -362,4 +362,4 @@ export interface AlipayTradeCancelResData {
   alipay_trade_cancel_response: AlipayTradeCancelRes;
 }
 
-export type AlipayTradeCancelRes = AlipayTradeBase;
+export type AlipayTradeCancelRes = AlipayBaseRes;
