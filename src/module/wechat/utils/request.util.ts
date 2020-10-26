@@ -37,7 +37,7 @@ export class WeChatRequestUtil {
       throw new Error((result as any).return_msg);
     }
     if ((result as any).return_code === 'SUCCESS') {
-      if (result_sign !== this.wechatSignUtil.sign(result, mch_key, 'MD5'))
+      if (result_sign !== this.wechatSignUtil.sign(result, mch_key, params.sign_type))
         throw new Error('微信支付接口返回签名有误');
     }
     return result;

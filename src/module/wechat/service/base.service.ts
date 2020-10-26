@@ -123,7 +123,7 @@ export class WeChatPayBaseService {
   }
 
   /**
-   *
+   * 微信支付参数拼接
    * @param params 微信支付参数
    * @param config 微信支付配置
    */
@@ -132,8 +132,8 @@ export class WeChatPayBaseService {
     params.appid = config.appid;
     params.mch_id = config.mch_id;
     params.nonce_str = this.randomUtil.genRandomStr();
-    params.sign_type = 'MD5';
-    params.sign = this.signUtil.sign(params, config.mch_key, 'MD5');
+    params.sign_type = params.sign_type === 'MD5' ? 'MD5' : 'HMAC-SHA256';
+    params.sign = this.signUtil.sign(params, config.mch_key, params.sign_type);
     return params;
   }
 
