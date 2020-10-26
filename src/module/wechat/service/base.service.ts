@@ -16,7 +16,13 @@ import {
 } from '../interfaces/refund.interface';
 import { WeChatSignUtil } from '../utils/sign.util';
 import { RandomUtil } from '../utils/random.util';
-import { WechatConfig } from '../interfaces/base.interface';
+import {
+  WechatConfig,
+  WeChatDownloadBillParam,
+  WeChatDownloadBillRes,
+  WechatDownloadFundFlowParam,
+  WechatDownloadFundFlowRes,
+} from '../interfaces/base.interface';
 
 @Injectable()
 export class WeChatPayBaseService {
@@ -92,6 +98,39 @@ export class WeChatPayBaseService {
       throw new Error('参数有误，out_trade_no 和 transaction_id 二选一');
     return await this.requestUtil.post<WeChatBaseRefundRes>(
       this.refundUrl,
+      this.processParams(params, wechat_config),
+      wechat_config.mch_key,
+      { httpsAgent: this.getCertHttpAgent(wechat_config.apiclient_cert, wechat_config.mch_id) },
+    );
+  }
+
+  /**
+   * 微信交易账单下载（接口暂未实现流接收）
+   * @param params WeChatDownloadBillParam
+   * @param wechat_config WechatConfig
+   */
+  public async downloadBill(
+    params: WeChatDownloadBillParam,
+    wechat_config: WechatConfig,
+  ): Promise<WeChatDownloadBillRes> {
+    return await this.requestUtil.post<WeChatDownloadBillRes>(
+      this.downloadBillUrl,
+      this.processParams(params, wechat_config),
+      wechat_config.mch_key,
+    );
+  }
+
+  /**
+   * 微信资金账单下载 （接口暂未实现流接收）
+   * @param params WechatDownloadFundFlowParam
+   * @param wechat_config WechatConfig
+   */
+  public async downloadFundFlow(
+    params: WechatDownloadFundFlowParam,
+    wechat_config: WechatConfig,
+  ): Promise<WechatDownloadFundFlowRes> {
+    return await this.requestUtil.post<WechatDownloadFundFlowRes>(
+      this.downloadFundFlowUrl,
       this.processParams(params, wechat_config),
       wechat_config.mch_key,
       { httpsAgent: this.getCertHttpAgent(wechat_config.apiclient_cert, wechat_config.mch_id) },
