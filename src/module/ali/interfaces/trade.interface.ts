@@ -236,7 +236,7 @@ export interface AlipayTradeQueryBizContent {
   out_trade_no?: string;
   trade_no?: string;
   org_pid?: string;
-  query_options: Array<string>;
+  query_options?: Array<string>;
 }
 
 export interface AlipayTradeQueryResData {
