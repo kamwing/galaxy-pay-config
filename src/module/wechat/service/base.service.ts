@@ -132,7 +132,7 @@ export class WeChatPayBaseService {
     params.appid = config.appid;
     params.mch_id = config.mch_id;
     params.nonce_str = this.randomUtil.genRandomStr();
-    params.sign_type = params.sign_type === 'MD5' ? 'MD5' : 'HMAC-SHA256';
+    params.sign_type = params.sign_type === 'HMAC-SHA256' ? 'HMAC-SHA256' : 'MD5';
     params.sign = this.signUtil.sign(params, config.mch_key, params.sign_type);
     return params;
   }

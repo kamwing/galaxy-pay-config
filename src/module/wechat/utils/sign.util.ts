@@ -23,12 +23,15 @@ export class WeChatSignUtil {
       if (key === 'sign') continue;
       params[key] && paramArr.push(`${key}=${params[key]}`);
     }
-    let signStr = paramArr.join('&');
+    let sign_str = paramArr.join('&');
     if (sign_type && sign_type === 'HMAC-SHA256') {
-      return createHmac('sha256', secret_key).update(signStr).digest('hex').toUpperCase();
+      return createHmac('sha256', secret_key)
+        .update((sign_str += `&key=${secret_key}`), 'utf8')
+        .digest('hex')
+        .toUpperCase();
     }
     return createHash('md5')
-      .update((signStr += `&key=${secret_key}`))
+      .update((sign_str += `&key=${secret_key}`))
       .digest('hex')
       .toUpperCase();
   }
