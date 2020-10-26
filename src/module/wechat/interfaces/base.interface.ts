@@ -39,13 +39,8 @@ export interface WechatConfig {
 
 /** 微信交易账单下载 */
 export interface WeChatDownloadBillParam {
-  appid: string;
-  mch_id: string;
-  nonce_str: string;
-  sign: string;
-  sign_type: string;
   bill_date: string;
-  bill_type: string;
+  bill_type?: 'ALL' | 'SUCCESS' | 'REFUND' | 'RECHARGE_REFUND';
   tar_type?: 'GZIP';
 }
 
@@ -65,11 +60,6 @@ export interface WeChatDownloadBillRes {
 
 /** 微信资金账单下载 */
 export interface WechatDownloadFundFlowParam {
-  appid: string;
-  mch_id: string;
-  nonce_str: string;
-  sign: string;
-  sign_type: string;
   bill_date: string;
   account_type: 'Basic' | 'Operation' | 'Fees';
   tar_type?: 'GZIP';

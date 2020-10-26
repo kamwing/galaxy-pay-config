@@ -168,7 +168,6 @@ npm i galaxy-pay-config
 
     alipay.trade.wap.pay **AliWapPayService.pay**
 
-
 ### 微信
 
 * **App支付接口**
@@ -204,3 +203,11 @@ npm i galaxy-pay-config
 * **H5支付支付接口**
 
    H5支付  **WeChatWapPayService.pay**
+
+* **微信交易账单下载接口**
+
+   微信交易账单下载(暂时不可调用)  **WeChatPayBaseService.downloadFundFlow**
+
+* **微信资金账单下载载接口**
+
+   微信资金账单下载(暂时不可调用)  **WeChatPayBaseService.downloadFundFlow**
